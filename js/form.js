@@ -72,6 +72,8 @@ form.addEventListener("submit", function (e) {
 
   // submit to the server if the form is valid
   if (isFormValid) {
+    window.location.href = "../thankyou.html";
+    alert("hello");
   }
 });
 console.log("hello");
