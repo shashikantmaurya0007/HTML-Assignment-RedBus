@@ -7,3 +7,12 @@
 .error {
   color: red;
 }
+
+section {
+  width: 80%;
+  margin: 1rem auto;
+}
+.form-field {
+  display: flex;
+  gap: 20px;
+}
