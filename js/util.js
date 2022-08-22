@@ -16,7 +16,7 @@ const isValidMobileNumber = (mobile) => {
 };
 
 const showError = (input, message) => {
-  const formField = input.parentElement;
+  const formField = input.parentElement.parentElement;
 
   formField.classList.remove("success");
   formField.classList.add("error");
@@ -24,8 +24,30 @@ const showError = (input, message) => {
   const error = formField.querySelector("small");
   error.textContent = message;
 };
+
+const showGenderError = (input, message) => {
+  console.log(input[0].parentElement.parentElement.parentElement);
+  const formField =
+    input[0].parentElement.parentElement.parentElement.parentElement;
+  console.log(formField);
+  formField.classList.remove("success");
+  formField.classList.add("error");
+
+  const error = formField.querySelector("small");
+  error.textContent = message;
+};
+const showGenderSuccess = (input) => {
+  const formField =
+    input[0].parentElement.parentElement.parentElement.parentElement;
+
+  formField.classList.remove("error");
+  formField.classList.add("success");
+
+  const error = formField.querySelector("small");
+  error.textContent = "";
+};
 const showSuccess = (input) => {
-  const formField = input.parentElement;
+  const formField = input.parentElement.parentElement;
 
   formField.classList.remove("error");
   formField.classList.add("success");
@@ -67,9 +89,9 @@ const checkLastName = () => {
   const username = lastNameEl.value.trim();
 
   if (!isRequired(username)) {
-    showError(lastNameEl, "First Name Can not be Blank");
+    showError(lastNameEl, "Last Name Can not be Blank");
   } else if (!isBetween(username.length, min, max)) {
-    showError(lastNameEl, `First Name must be between ${min} and ${max}`);
+    showError(lastNameEl, `Last Name must be between ${min} and ${max}`);
   } else {
     showSuccess(lastNameEl);
     valid = true;
@@ -86,9 +108,9 @@ const checkNickName = () => {
   const username = nickNameEl.value.trim();
 
   if (!isRequired(username)) {
-    showError(nickNameEl, "First Name Can not be Blank");
+    showError(nickNameEl, "Nick Name Can not be Blank");
   } else if (!isBetween(username.length, min, max)) {
-    showError(nickNameEl, `First Name must be between ${min} and ${max}`);
+    showError(nickNameEl, `Nick Name must be between ${min} and ${max}`);
   } else {
     showSuccess(nickNameEl);
     valid = true;
@@ -178,4 +200,24 @@ const checkAddress = () => {
     showSuccess(addressEl);
   }
   return valid;
+};
+
+const checkGender = () => {
+  let genderValue;
+  let valid = false;
+  for (let i = 0; i < gendersEl.length; i++) {
+    if (gendersEl[i].checked) {
+      genderValue = gendersEl[i].value;
+      console.log(gendersEl[i], gendersEl[i].value);
+    }
+  }
+
+  if (genderValue === "" || !Boolean(genderValue)) {
+    showGenderError(gendersEl, "select any one gender");
+  } else {
+    console.log(genderValue);
+    showGenderSuccess(gendersEl);
+    valid = true;
+  }
+  return genderValue;
 };
