@@ -9,6 +9,8 @@ const isEmailValid = (email) => {
   return re.test(email);
 };
 
+const isValidBirthYear = (userDobYear, curentYear) => userDobYear < curentYear;
+
 const showError = (input, message) => {
   const formField = input.parentElement;
 
@@ -18,14 +20,6 @@ const showError = (input, message) => {
   const error = formField.querySelector("small");
   error.textContent = message;
 };
-
-const isPasswordSecure = (password) => {
-  const re = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-  );
-  return re.test(password);
-};
-
 const showSuccess = (input) => {
   const formField = input.parentElement;
 
@@ -34,6 +28,12 @@ const showSuccess = (input) => {
 
   const error = formField.querySelector("small");
   error.textContent = "";
+};
+const isPasswordSecure = (password) => {
+  const re = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+  );
+  return re.test(password);
 };
 
 const checkFirstName = () => {
@@ -121,6 +121,24 @@ const checkPassword = () => {
   } else {
     showSuccess(passwordEl);
     valid = true;
+  }
+
+  return valid;
+};
+
+const checkDateOfBirth = () => {
+  let valid = false;
+
+  const dateOfBirth = birthdayEl.value.trim();
+  const currentYear = new Date().getFullYear();
+  const userBirthYear = dateOfBirth.split("-")[0];
+  if (!isRequired(dateOfBirth)) {
+    showError(birthdayEl, "dob can not be empty");
+  } else if (!isValidBirthYear(userBirthYear, currentYear)) {
+    showError(birthdayEl, `dob is invalid `);
+  } else {
+    valid = true;
+    showSuccess(birthdayEl);
   }
 
   return valid;
