@@ -11,6 +11,10 @@ const isEmailValid = (email) => {
 
 const isValidBirthYear = (userDobYear, curentYear) => userDobYear < curentYear;
 
+const isValidMobileNumber = (mobile) => {
+  return mobile.match(/^(\+\d{1,3}[- ]?)?\d{10}$/);
+};
+
 const showError = (input, message) => {
   const formField = input.parentElement;
 
@@ -141,5 +145,37 @@ const checkDateOfBirth = () => {
     showSuccess(birthdayEl);
   }
 
+  return valid;
+};
+
+const checkMobileNumber = () => {
+  let valid = false;
+  const mobileNo = mobileEl.value.trim();
+
+  if (!isRequired(mobileNo)) {
+    showError(mobileEl, "mobile can not be empty");
+  } else if (!isValidMobileNumber(mobileNo)) {
+    showError(mobileEl, "mobile number is invalid");
+  } else {
+    valid = true;
+
+    showSuccess(mobileEl);
+  }
+  return valid;
+};
+
+const checkAddress = () => {
+  let valid = false;
+  const min = 8;
+  const max = 100;
+  const address = addressEl.value.trim();
+  if (!isRequired(address)) {
+    showError(addressEl, "address can not be empty");
+  } else if (!isBetween(address.length, min, max)) {
+    showError(addressEl, `address length should be between ${min} and ${max}`);
+  } else {
+    valid = true;
+    showSuccess(addressEl);
+  }
   return valid;
 };
