@@ -10,16 +10,13 @@ const form = document.querySelector(".form");
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  let isUsernameValid = checkUsername(),
+  let isFirstNameValid = checkFirstName(),
+    isLastNameValid = checkLastName(),
     isEmailValid = checkEmail(),
-    isPasswordValid = checkPassword(),
-    isConfirmPasswordValid = checkConfirmPassword();
+    isPasswordValid = checkPassword();
 
   let isFormValid =
-    isUsernameValid &&
-    isEmailValid &&
-    isPasswordValid &&
-    isConfirmPasswordValid;
+    isFirstNameValid && isLastNameValid && isEmailValid && isEmailValid;
 
   // submit to the server if the form is valid
   if (isFormValid) {
