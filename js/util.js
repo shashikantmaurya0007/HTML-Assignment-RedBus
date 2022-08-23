@@ -219,5 +219,26 @@ const checkGender = () => {
     showGenderSuccess(gendersEl);
     valid = true;
   }
+  return valid;
+};
+
+const getSelectedGenderValue = () => {
+  let genderValue;
+  let valid = false;
+  for (let i = 0; i < gendersEl.length; i++) {
+    if (gendersEl[i].checked) {
+      genderValue = gendersEl[i].value;
+    }
+  }
+
   return genderValue;
+};
+
+const retainGenderValue = (gender) => {
+  for (let i = 0; i < gendersEl.length; i++) {
+    if (gendersEl[i].value === gender) {
+      gendersEl[i].checked = true;
+      return;
+    }
+  }
 };

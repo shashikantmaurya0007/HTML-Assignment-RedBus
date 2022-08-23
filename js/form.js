@@ -9,6 +9,7 @@ const mobileEl = document.querySelector("#mobile");
 const addressEl = document.querySelector("#address");
 const form = document.querySelector(".form");
 const reset = document.querySelector("#reset");
+const retaindataEl = document.querySelector("#retainData");
 const arr = [
   firstNameEl,
   lastNameEl,
@@ -33,7 +34,6 @@ resetGender = () => {
   for (let i = 0; i < gendersEl.length; i++) {
     gendersEl[i].checked = false;
   }
-  //   gendersEl[]
 };
 const resetInputValues = () => {
   for (let i = 0; i < arr.length; i++) {
@@ -57,7 +57,7 @@ form.addEventListener("submit", function (e) {
     isMobileNumberValid = checkMobileNumber(),
     isAddressValid = checkAddress(),
     isNickNameValid = checkNickName(),
-    isGenderValid;
+    isGenderValid = checkGender();
 
   let isFormValid =
     isFirstNameValid &&
@@ -68,12 +68,56 @@ form.addEventListener("submit", function (e) {
     isDateOfBirthValid &&
     isMobileNumberValid &&
     isAddressValid &&
-    isNickNameValid;
+    isNickNameValid &&
+    isGenderValid;
 
   // submit to the server if the form is valid
   if (isFormValid) {
     window.location.href = "../thankyou.html";
-    alert("hello");
   }
 });
-console.log("hello");
+
+const saveToLoacalStorage = () => {
+  const user = {
+    firstName_: firstNameEl.value,
+    lastName_: lastNameEl.value,
+    nickName_: nickNameEl.value,
+    email_: emailEl.value,
+    password_: passwordEl.value,
+    birthday_: birthdayEl.value,
+    mobile_: mobileEl.value,
+    address_: addressEl.value,
+    gender_: getSelectedGenderValue(),
+  };
+  localStorage.setItem("userInformation", JSON.stringify(user));
+};
+
+const removeFromLocalStorage = () => {
+  localStorage.removeItem("userInformation");
+};
+window.onbeforeunload = function () {
+  if (retaindataEl.checked) saveToLoacalStorage();
+  else {
+    removeFromLocalStorage();
+  }
+  return null;
+};
+
+window.onload = function () {
+  if (Boolean(localStorage.getItem("userInformation"))) {
+    retaindataEl.checked = true;
+    const user = JSON.parse(localStorage.getItem("userInformation"));
+
+    firstNameEl.value = user.firstName_;
+    lastNameEl.value = user.lastName_;
+    nickNameEl.value = user.nickName_;
+    emailEl.value = user.email_;
+    passwordEl.value = user.password_;
+    birthdayEl.value = user.birthday_;
+    mobileEl.value = user.mobile_;
+    addressEl.value = user.address_;
+    retainGenderValue(user.gender_);
+  } else {
+    resetInputValues();
+  }
+};
